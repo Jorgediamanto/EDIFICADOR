@@ -17,7 +17,7 @@ class PizzaAbstractFactory(ABC):
 class PizzaFactory(PizzaAbstractFactory):
     def create_tipo(self) -> str:
         while True:
-            print("Elige el tipo de pizza:")
+            print("Elige el tipo del edificio:")
             print("1 - Residenciales")
             print("2 - Comerciales")
             print("3 - Industriales")
@@ -33,7 +33,7 @@ class PizzaFactory(PizzaAbstractFactory):
 
     def create_estilo(self) -> str:
         while True:
-            print("Elige el estilo de pizza:")
+            print("Elige el estilo del edificio:")
             print("1 - Moderno")
             print("2 - Clasico")
             print("3 - Futurista")
@@ -171,6 +171,8 @@ class PizzaDirector:
     def builder(self, builder):
         self._builder = builder
 
+
+
 class Producto(ABC):
     @abstractmethod
     def __init__(self, nombre):
@@ -179,45 +181,6 @@ class Producto(ABC):
     @abstractmethod
     def descripcion(self):
         pass
-
-class Bebida(Producto):
-    opciones_bebidas = ["Aguita refrescante", "Flameado de Moe", "Cerveza", "Nada"]
-
-    def __init__(self, nombre, seleccion):
-        super().__init__(nombre)
-        if seleccion in self.opciones_bebidas:
-            self.seleccion = seleccion
-        else:
-            raise ValueError("Opción de bebida no válida")
-
-    def descripcion(self):
-        return f"{self.nombre}: {self.seleccion}"
-
-class Postre(Producto):
-    opciones_postres = ["Banana split", "Dorayaki", "Batipasas", "Nada"]
-
-    def __init__(self, nombre, seleccion):
-        super().__init__(nombre)
-        if seleccion in self.opciones_postres:
-            self.seleccion = seleccion
-        else:
-            raise ValueError("Opción de postre no válida")
-
-    def descripcion(self):
-        return f"{self.nombre}: {self.seleccion}"
-
-class Entrante(Producto):
-    opciones_entrantes = ["Nachos guerrero", "Enchilada", "Taco", "Nada"]
-
-    def __init__(self, nombre, seleccion):
-        super().__init__(nombre)
-        if seleccion in self.opciones_entrantes:
-            self.seleccion = seleccion
-        else:
-            raise ValueError("Opción de entrante no válida")
-
-    def descripcion(self):
-        return f"{self.nombre}: {self.seleccion}"
 
 
 def mostrar_opciones(opciones: Dict[str, str]) -> None:
@@ -234,7 +197,7 @@ def seleccion_valida(opcion: int, opciones: Dict[str, str]) -> bool:
 def obtener_seleccion(opciones: Dict[str, str]) -> str:
     while True:
         mostrar_opciones(opciones)
-        opcion = input("Ingresa el número correspondiente: ")
+        opcion = input("Opcion: ")
         if opcion.isdigit():
             opcion = int(opcion)
             if seleccion_valida(opcion, opciones):

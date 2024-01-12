@@ -36,7 +36,7 @@ def main():
     # Muestra la información de las pizzas almacenadas en el CSV
     with open('pedidos_pizza.csv', 'r') as file:
         reader = csv.reader(file)
-        print("\nInformacion de las pizzas:")
+        print("\nInformacion de los edificios:")
         for row in reader:
             print(row)
 
