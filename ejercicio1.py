@@ -130,6 +130,8 @@ class PizzaBuilder(ABC):
     def crear_estilo(self):
         pass
 
+    
+
 class Pizza(PizzaBuilder):
     def crear_tipo(self):
         self.tipo = self._factory.create_tipo()
@@ -170,6 +172,13 @@ class PizzaDirector:
     @builder.setter
     def builder(self, builder):
         self._builder = builder
+
+    def duplica(self):
+        # Crea una nueva instancia de PizzaDirector con el mismo builder
+        nuevo_director = PizzaDirector(self._builder)
+        # Clona el estado actual (puede necesitar ajustes según tu lógica)
+        nuevo_director._builder = self._builder
+        return nuevo_director
 
 
 
