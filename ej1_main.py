@@ -2,84 +2,27 @@ from ejercicio1 import *
 import csv
 import os.path
 
-
-
-
-
 def main():
-
-    iniciar_sesion_o_registrar() 
-    
-    factory = PizzaFactory()
-    director = PizzaDirector(factory)
-
-    # Crea la primera pizza utilizando la fábrica abstracta
-    director.crear_pizza()
-    pizza1 = director.builder.pizza
-
-    # Crea la segunda pizza utilizando la fábrica abstracta
-    director = PizzaDirector(PizzaFactory())
-    director.crear_pizza()
-    pizza2 = director.builder.pizza
-
-    print("¡Tu primera pizza está lista!")
-    print("Detalles de la pizza:")
-    print("Tamano:", pizza1[0])
-    print("Masa:", pizza1[1])
-    print("Ingredientes:", pizza1[2])
-    print("Salsa:", pizza1[3])
-    print("Tecnica de coccion:", pizza1[4])
-    print("Presentacion:", pizza1[5])
-    
-    print("\n¡Tu segunda pizza está lista!")
-    print("Detalles de la pizza:")
-    print("Tamano:", pizza2[0])
-    print("Masa:", pizza2[1])
-    print("Ingredientes:", pizza2[2])
-    print("Salsa:", pizza2[3])
-    print("Tecnica de coccion:", pizza2[4])
-    print("Presentacion:", pizza2[5])
+    iniciar_sesion_o_registrar()
 
     # Asegúrate de que pedido_builder está definido antes de usarlo
     pedido_builder = PedidoPizzaCSVBuilder()
 
-    if not os.path.isfile('pedidos_pizza.csv'):
-        pedido_builder.crear_csv()
-    
-    # Añade la primera pizza al pedido (ajusta según tus necesidades)
-    pedido_builder.añadir_pedido("cliente1", pizza1)
-    
+    for i in range(3):  # Iteramos tres veces para crear tres pizzas
+        # Crea la pizza utilizando la fábrica abstracta
+        factory = PizzaFactory()
+        director = PizzaDirector(factory)
+        director.crear_pizza()
+        pizza_info = director.builder.get_pizza_info()
+
+        # Añade la pizza al pedido (ajusta según tus necesidades)
+        pedido_builder.añadir_pedido("cliente1", pizza_info)
+
     try:
-        bebidas = {
-            "Aguita refrescante": "Aguita refrescante",
-            "Flameado de Moe": "Flameado de Moe",
-            "Cerveza": "Cerveza",
-            "Nada": "Nada"
-        }
-        
-        print("Elige tu bebida:")
-        seleccion_bebida = obtener_seleccion(bebidas)
-        
-        postres = {
-            "Banana split": "Banana split",
-            "Dorayaki": "Dorayaki",
-            "Batipasas": "Batipasas",
-            "Nada": "Nada"
-        }
-        
-        print("Elige tu postre:")
-        seleccion_postre = obtener_seleccion(postres)
-        
-        entrantes = {
-            "Nachos guerrero": "Nachos guerrero",
-            "Enchilada": "Enchilada",
-            "Taco": "Taco",
-            "Nada": "Nada"
-        }
-        
-        print("Elige tu entrante:")
-        seleccion_entrante = obtener_seleccion(entrantes)
-        
+        tipo_seleccion = obtener_seleccion({"Residenciales": "Residenciales", "Comerciales": "Comerciales", "Industriales": "Industriales"})
+        estilo_seleccion = obtener_seleccion({"Moderno": "Moderno", "Clasico": "Clasico", "Futurista": "Futurista"})
+
+        # Utiliza las selecciones del usuario para escribir en el archivo CSV
         nueva_fila = ['elemento1', 'elemento2', 'elemento3', 'elemento4']
 
         nombre_archivo = 'complementos.csv'
@@ -89,20 +32,17 @@ def main():
 
     except ValueError as e:
         print("Error: Ingresa un número válido.")
+
+    # Muestra la información de las pizzas almacenadas en el CSV
+    with open('pedidos_pizza.csv', 'r') as file:
+        reader = csv.reader(file)
+        print("\nInformacion de las pizzas:")
+        for row in reader:
+            print(row)
+
+   
+
     
-    lista_selecciones = [seleccion_bebida, seleccion_postre, seleccion_entrante]
-    cantidad_nada = lista_selecciones.count('Nada')
-    preciocomplementos= (3-cantidad_nada)*4
-    print("El precio de los complementos es: ", preciocomplementos, "€")
-    print("El precio de la pizza es de: ", 8, "€")
-    preciototal=preciocomplementos+8
-    if preciototal == 20:
-        print("Al haber pedido entrante, pizza, bebida y postre formando un menú individual de tarifa reducida, el nuevo precio es de 15 euros")
-        preciototal=15
-    print("El precio total es de: ", preciototal, "€")
-
-
-
 
 if __name__ == "__main__":
     main()

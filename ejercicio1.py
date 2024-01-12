@@ -5,56 +5,54 @@ from typing import Dict
 from typing import List
 
 
-
 class PizzaAbstractFactory(ABC):
     @abstractmethod
-    def create_masa(self) -> str:
+    def create_tipo(self) -> str:
         pass
 
     @abstractmethod
-    def create_tamano(self) -> str:
-        pass
-
-    @abstractmethod
-    def create_salsa(self) -> str:
-        pass
-
-    @abstractmethod
-    def create_ingredientes(self) -> List[str]:
-        pass
-
-    @abstractmethod
-    def create_tecnica(self) -> str:
-        pass
-
-    @abstractmethod
-    def create_presentacion(self) -> str:
+    def create_estilo(self) -> str:
         pass
 
 class PizzaFactory(PizzaAbstractFactory):
-    def create_masa(self) -> str:
-        # Lógica para crear masa
-        pass
+    def create_tipo(self) -> str:
+        while True:
+            print("Elige el tipo de pizza:")
+            print("1 - Residenciales")
+            print("2 - Comerciales")
+            print("3 - Industriales")
+            opcion = input("Opcion: ")
+            if opcion == '1':
+                return "Residenciales"
+            elif opcion == '2':
+                return "Comerciales"
+            elif opcion == '3':
+                return "Industriales"
+            else:
+                print("Por favor, elige una opcion valida (1, 2, o 3)")
 
-    def create_tamano(self) -> str:
-        # Lógica para crear tamaño
-        pass
+    def create_estilo(self) -> str:
+        while True:
+            print("Elige el estilo de pizza:")
+            print("1 - Moderno")
+            print("2 - Clasico")
+            print("3 - Futurista")
+            opcion = input("Opcion: ")
+            if opcion == '1':
+                return "Moderno"
+            elif opcion == '2':
+                return "Clasico"
+            elif opcion == '3':
+                return "Futurista"
+            else:
+                print("Por favor, elige una opcion valida (1, 2, o 3)")
 
-    def create_salsa(self) -> str:
-        # Lógica para crear salsa
-        pass
+    def get_pizza_info(self) -> List[str]:
+        tipo = self.create_tipo()
+        estilo = self.create_estilo()
+        return [tipo, estilo]
 
-    def create_ingredientes(self) -> List[str]:
-        # Lógica para crear ingredientes
-        pass
 
-    def create_tecnica(self) -> str:
-        # Lógica para crear técnica de cocción
-        pass
-
-    def create_presentacion(self) -> str:
-        # Lógica para crear presentación
-        pass
 
 # Función para verificar si un usuario ya está registrado
 def usuario_existente(correo):
@@ -97,7 +95,7 @@ def verificar_usuario(correo, contraseña):
 
 # Interacción con el usuario
 def iniciar_sesion_o_registrar():
-    print("Bienvenido a la pizzería")
+    print("Vamos a crear un edificio")
     opcion = input("¿Estás registrado? (sí/no): ")
 
     if opcion.lower() == 'no':
@@ -107,10 +105,10 @@ def iniciar_sesion_o_registrar():
         correo = input("Ingresa tu correo electrónico: ")
         contraseña = input("Ingresa tu contraseña: ")
         if verificar_usuario(correo, contraseña):
-            print("Inicio de sesión exitoso. ¡Disfruta tu estadía!")
+            print("Inicio de sesión exitoso.")
             # Aquí podrías redirigir al usuario a la página principal de la pizzería
         else:
-            print("Credenciales incorrectas. Inténtalo de nuevo.")
+            print("Algun camp es incorrecto. Inténtalo de nuevo.")
             iniciar_sesion_o_registrar()
     else:
         print("Opción no válida. Por favor, responde 'sí' o 'no'.")
@@ -125,149 +123,19 @@ def iniciar_sesion_o_registrar():
 
 class PizzaBuilder(ABC):
     @abstractmethod
-    def crear_masa(self):
+    def crear_tipo(self):
         pass
     
     @abstractmethod
-    def crear_tamano(self):
-        pass
-    
-    @abstractmethod
-    def crear_salsa(self):
-        pass
-    
-    @abstractmethod
-    def crear_ingredientes(self):
-        pass
-    
-    @abstractmethod
-    def crear_tecnica(self):
-        pass
-    
-    @abstractmethod
-    def crear_presentacion(self):
+    def crear_estilo(self):
         pass
 
 class Pizza(PizzaBuilder):
-    def __init__(self):
-        self.reset()
-        
-    def reset(self):    
-        self.tamano = ""
-        self.masa = ""
-        self.ingredientes = []
-        self.salsa = ""
-        self.tecnica = ""
-        self.presentacion = ""
-    
-    @property
-    def pizza(self):
-        pizza = [self.tamano, self.masa, ', '.join(self.ingredientes), self.salsa, self.tecnica, self.presentacion]
-        self.reset()
-        return pizza
+    def crear_tipo(self):
+        self.tipo = self._factory.create_tipo()
 
-    def crear_masa(self):
-        while True:
-            print("Elige el tipo de masa:")
-            print("1 - Clasica")
-            print("2 - Fina")
-            print("3 - Con queso")
-            opcion = input("Opcion: ")
-            if opcion == '1':
-                self.masa = "Clasica"
-                break
-            elif opcion == '2':
-                self.masa = "Fina"
-                break
-            elif opcion == '3':
-                self.masa = "Con queso"
-                break
-            else:
-                print("Por favor, elige una opcion valida (1, 2, o 3)")
-
-
-    def crear_tamano(self):
-        while True:
-            print("Elige el tamano:")
-            print("1 - Familiar")
-            print("2 - Normal")
-            print("3 - Pequena")
-            opcion = input("Opcion: ")
-            if opcion == '1':
-                self.tamano = "Familiar"
-                break
-            elif opcion == '2':
-                self.tamano = "Normal"
-                break
-            elif opcion == '3':
-                self.tamano = "Pequena"
-                break
-            else:
-                print("Por favor, elige una opción valida (1, 2, o 3)")
-
-    def crear_salsa(self):
-        while True:
-            print("Elige el tipo de salsa:")
-            print("1 - Barbacoa")
-            print("2 - Picante")
-            print("3 - Carbonara")
-            opcion = input("Opcion: ")
-            if opcion == '1':
-                self.salsa = "Barbacoa"
-                break
-            elif opcion == '2':
-                self.salsa = "Picante"
-                break
-            elif opcion == '3':
-                self.salsa = "Carbonara"
-                break
-            else:
-                print("Por favor, elige una opcion valida (1, 2, o 3)")
-
-
-    def crear_ingredientes(self):
-        print("Elige los ingredientes para tu pizza (ingresa 'listo' cuando hayas terminado):")
-        ingredientes_disponibles = ["Queso", "Pepperoni", "Champinones", "Jamon", "Pimientos", "Cebolla", "Aceitunas"]
-        while True:
-            print(f"Ingredientes disponibles: {', '.join(ingredientes_disponibles)}")
-            ingrediente = input("Ingrediente: ")
-            if ingrediente.lower() == 'listo':
-                break
-            if ingrediente in ingredientes_disponibles:
-                self.ingredientes.append(ingrediente)
-                ingredientes_disponibles.remove(ingrediente)
-            else:
-                print("Ingrediente no disponible. Elige otro.")
-
-    def crear_tecnica(self):
-        while True:
-            print("Elige la tecnica de coccion:")
-            print("1 - Horno")
-            print("2 - Microondas")
-            opcion = input("Opcion: ")
-            if opcion == '1':
-                self.tecnica = "Horno"
-                break
-            elif opcion == '2':
-                self.tecnica = "Microondas"
-                break
-            else:
-                print("Por favor, elige una opción valida (1 o 2)")
-
-    def crear_presentacion(self):
-        while True:
-            print("Elige la presentacion:")
-            print("1 - Para tomar aqui")
-            print("2 - Para llevar")
-            opcion = input("Opcion: ")
-            if opcion == '1':
-                self.presentacion = "Para tomar aqui"
-                break
-            elif opcion == '2':
-                self.presentacion = "Para llevar"
-                break
-            else:
-                print("Por favor, elige una opción valida (1 o 2)")
+    def crear_estilo(self):
+        self.estilo = self._factory.create_estilo()
 
 
 class PedidoPizzaCSVBuilder:
@@ -284,16 +152,16 @@ class PedidoPizzaCSVBuilder:
         file.close()
 
 class PizzaDirector:
-    def __init__(self, builder):
+    def __init__(self, builder: PizzaBuilder):
         self._builder = builder
     
     def crear_pizza(self):
-        self._builder.crear_tamano()
-        self._builder.crear_masa()
-        self._builder.crear_ingredientes()
-        self._builder.crear_salsa()
-        self._builder.crear_tecnica()
-        self._builder.crear_presentacion()
+        if isinstance(self._builder, PizzaFactory):
+            self._builder.create_tipo()
+            self._builder.create_estilo()
+        else:
+            self._builder.crear_tipo()
+            self._builder.crear_estilo()
 
     @property
     def builder(self):
@@ -302,7 +170,6 @@ class PizzaDirector:
     @builder.setter
     def builder(self, builder):
         self._builder = builder
-
 
 class Producto(ABC):
     @abstractmethod
